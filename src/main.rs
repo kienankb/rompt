@@ -4,11 +4,11 @@ use std::env;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let username = &args[1];
-    let cwd = env::current_dir().unwrap();
-    let cwd_str = cwd.to_str().expect("failed to get current working directory").split("/");
-    print!("{}  ", username);
-    for path_frag in cwd_str {
+    let cwd = &args[1];
+    let home_dir = env::var("HOME").unwrap_or("none".to_string());
+    let replaced_cwd = cwd.replace(&home_dir, "~");
+    let split_cwd = replaced_cwd.split("/");
+    for path_frag in split_cwd {
         print!("{}  ", path_frag);
     }
     io::stdout().flush().unwrap();
